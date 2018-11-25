@@ -5,9 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EFCoreRelations
 {
-    public class PlaceContext : DbContext
+    public class DatabaseContext : DbContext
     {
-        public DbSet<PlaceEntity> Places { get; set; }
+        public DbSet<Area> Areas { get; set; }
+        public DbSet<Place> Places { get; set; }
+        public DbSet<Person> People { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -16,19 +18,13 @@ namespace EFCoreRelations
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // One {Area} has many {People}.
+            modelBuilder.Entity<Area>()
+                .HasMany(a => a.People);
+
             // One {Place} has many {People}.
-            modelBuilder.Entity<PlaceEntity>()
+            modelBuilder.Entity<Place>()
                 .HasMany(a => a.People);
         }
-    }
-
-    [Table("Place")]
-    public class PlaceEntity
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        
-        public ICollection<PersonEntity> People { get; set; }
     }
 }

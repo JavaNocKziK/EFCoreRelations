@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFCoreRelations.Migrations
 {
-    [DbContext(typeof(AreaContext))]
-    partial class AreaContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(DatabaseContext))]
+    partial class DatabaseContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -19,7 +19,7 @@ namespace EFCoreRelations.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("EFCoreRelations.AreaEntity", b =>
+            modelBuilder.Entity("EFCoreRelations.Area", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -27,29 +27,48 @@ namespace EFCoreRelations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Area");
+                    b.ToTable("Areas");
                 });
 
-            modelBuilder.Entity("EFCoreRelations.PersonEntity", b =>
+            modelBuilder.Entity("EFCoreRelations.Person", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AreaEntityId");
+                    b.Property<int?>("AreaId");
+
+                    b.Property<int?>("PlaceId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AreaEntityId");
+                    b.HasIndex("AreaId");
 
-                    b.ToTable("Person");
+                    b.HasIndex("PlaceId");
+
+                    b.ToTable("People");
                 });
 
-            modelBuilder.Entity("EFCoreRelations.PersonEntity", b =>
+            modelBuilder.Entity("EFCoreRelations.Place", b =>
                 {
-                    b.HasOne("EFCoreRelations.AreaEntity")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Places");
+                });
+
+            modelBuilder.Entity("EFCoreRelations.Person", b =>
+                {
+                    b.HasOne("EFCoreRelations.Area")
                         .WithMany("People")
-                        .HasForeignKey("AreaEntityId");
+                        .HasForeignKey("AreaId");
+
+                    b.HasOne("EFCoreRelations.Place")
+                        .WithMany("People")
+                        .HasForeignKey("PlaceId");
                 });
 #pragma warning restore 612, 618
         }
