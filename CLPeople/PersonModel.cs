@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CLPeople
 {
-    public class Person
+    public class PersonModel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
