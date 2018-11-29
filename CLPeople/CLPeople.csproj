@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
@@ -13,13 +12,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CLAreas\CLAreas.csproj" />
-    <ProjectReference Include="..\CLPeople\CLPeople.csproj" />
-    <ProjectReference Include="..\CLPlaces\CLPlaces.csproj" />
-    <ProjectReference Include="..\CLSpaces\CLSpaces.csproj" />
   </ItemGroup>
 
 </Project>

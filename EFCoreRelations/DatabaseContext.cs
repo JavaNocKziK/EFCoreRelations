@@ -1,16 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
+using System.Reflection;
+using System.Runtime.Loader;
+using System.Linq;
 
 namespace EFCoreRelations
 {
     public class DatabaseContext : DbContext
     {
-        public DbSet<Area> Areas { get; set; }
-        public DbSet<Place> Places { get; set; }
-        public DbSet<Person> People { get; set; }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
@@ -18,13 +17,27 @@ namespace EFCoreRelations
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // One {Area} has many {People}.
-            modelBuilder.Entity<Area>()
-                .HasMany(a => a.People);
-
-            // One {Place} has many {People}.
-            modelBuilder.Entity<Place>()
-                .HasMany(a => a.People);
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            List<Assembly> assemblies = new List<Assembly>();
+            List<string> files = Directory
+                .EnumerateFiles(baseDirectory)
+                .Where(s => s.Replace(baseDirectory, "").StartsWith("CL"))
+                .Where(s => s.Replace(baseDirectory, "").EndsWith(".dll"))
+                .ToList<string>();
+            foreach (string file in files)
+            {
+                assemblies.Add(AssemblyLoadContext.Default.LoadFromAssemblyPath(file));
+            }
+            foreach (Assembly assembly in assemblies)
+            {
+                Type context = assembly.GetTypes()
+                    .Where(s => s.Name.StartsWith("Db"))
+                    .SingleOrDefault<Type>();
+                //object contextInstance = Activator.CreateInstance(context);
+                var method = modelBuilder.GetType().GetMethod("Entity", new Type[] { });
+                method = method.MakeGenericMethod(new Type[] { context });
+                method.Invoke(modelBuilder, null);
+            }
         }
     }
 }
