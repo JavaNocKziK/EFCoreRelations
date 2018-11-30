@@ -33,7 +33,6 @@ namespace EFCoreRelations
                 Type context = assembly.GetTypes()
                     .Where(s => s.Name.EndsWith("Model"))
                     .SingleOrDefault<Type>();
-                //object contextInstance = Activator.CreateInstance(context);
                 var method = modelBuilder.GetType().GetMethod("Entity", new Type[] { });
                 method = method.MakeGenericMethod(new Type[] { context });
                 method.Invoke(modelBuilder, null);
