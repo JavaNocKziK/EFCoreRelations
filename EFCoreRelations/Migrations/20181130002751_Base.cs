@@ -8,7 +8,7 @@ namespace EFCoreRelations.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AreaModel",
+                name: "Area",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -16,11 +16,11 @@ namespace EFCoreRelations.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AreaModel", x => x.Id);
+                    table.PrimaryKey("PK_Area", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlaceModel",
+                name: "Place",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -28,11 +28,11 @@ namespace EFCoreRelations.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlaceModel", x => x.Id);
+                    table.PrimaryKey("PK_Place", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SpaceModel",
+                name: "Space",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -40,71 +40,71 @@ namespace EFCoreRelations.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SpaceModel", x => x.Id);
+                    table.PrimaryKey("PK_Space", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PersonModel",
+                name: "Person",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AreaModelId = table.Column<int>(nullable: true),
-                    PlaceModelId = table.Column<int>(nullable: true),
-                    SpaceModelId = table.Column<int>(nullable: true)
+                    AreaId = table.Column<int>(nullable: false),
+                    PlaceId = table.Column<int>(nullable: false),
+                    SpaceId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PersonModel", x => x.Id);
+                    table.PrimaryKey("PK_Person", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PersonModel_AreaModel_AreaModelId",
-                        column: x => x.AreaModelId,
-                        principalTable: "AreaModel",
+                        name: "FK_Person_Area_AreaId",
+                        column: x => x.AreaId,
+                        principalTable: "Area",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PersonModel_PlaceModel_PlaceModelId",
-                        column: x => x.PlaceModelId,
-                        principalTable: "PlaceModel",
+                        name: "FK_Person_Place_PlaceId",
+                        column: x => x.PlaceId,
+                        principalTable: "Place",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PersonModel_SpaceModel_SpaceModelId",
-                        column: x => x.SpaceModelId,
-                        principalTable: "SpaceModel",
+                        name: "FK_Person_Space_SpaceId",
+                        column: x => x.SpaceId,
+                        principalTable: "Space",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PersonModel_AreaModelId",
-                table: "PersonModel",
-                column: "AreaModelId");
+                name: "IX_Person_AreaId",
+                table: "Person",
+                column: "AreaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PersonModel_PlaceModelId",
-                table: "PersonModel",
-                column: "PlaceModelId");
+                name: "IX_Person_PlaceId",
+                table: "Person",
+                column: "PlaceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PersonModel_SpaceModelId",
-                table: "PersonModel",
-                column: "SpaceModelId");
+                name: "IX_Person_SpaceId",
+                table: "Person",
+                column: "SpaceId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "PersonModel");
+                name: "Person");
 
             migrationBuilder.DropTable(
-                name: "AreaModel");
+                name: "Area");
 
             migrationBuilder.DropTable(
-                name: "PlaceModel");
+                name: "Place");
 
             migrationBuilder.DropTable(
-                name: "SpaceModel");
+                name: "Space");
         }
     }
 }

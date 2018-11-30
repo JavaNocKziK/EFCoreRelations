@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace EFCoreRelations
 {
@@ -41,11 +42,11 @@ namespace EFCoreRelations
                     if (assemblyToLoad == "CLPeople")
                     {
                         Console.Write("Area value: ");
-                        Rec.AreaModelId = int.Parse(Console.ReadLine());
+                        Rec.AreaId = int.Parse(Console.ReadLine());
                         Console.Write("Place value: ");
-                        Rec.PlaceModelId = int.Parse(Console.ReadLine());
+                        Rec.PlaceId = int.Parse(Console.ReadLine());
                         Console.Write("Space value: ");
-                        Rec.SpaceModelId = int.Parse(Console.ReadLine());
+                        Rec.SpaceId = int.Parse(Console.ReadLine());
                     }
 
                     dbSet.Add(Rec);

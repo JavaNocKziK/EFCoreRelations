@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace EFCoreRelations
 {
@@ -31,7 +32,7 @@ namespace EFCoreRelations
             foreach (Assembly assembly in assemblies)
             {
                 Type context = assembly.GetTypes()
-                    .Where(s => s.Name.EndsWith("Model"))
+                    .Where(s => Regex.IsMatch(s.FullName, @"^CL.*\.Models\..*$"))
                     .SingleOrDefault<Type>();
                 var method = modelBuilder.GetType().GetMethod("Entity", new Type[] { });
                 method = method.MakeGenericMethod(new Type[] { context });

@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CLPeople
+namespace CLPeople.Models
 {
-    public class PersonModel
+    public class Person
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int AreaModelId { get; set; }
-        public int PlaceModelId { get; set; }
-        public int SpaceModelId { get; set; }
+        public int AreaId { get; set; }
+        public int PlaceId { get; set; }
+        public int SpaceId { get; set; }
     }
 }
